@@ -8,7 +8,8 @@ import (
 
 var arrayGrid [][]int
 
-func startSolving(jsonGrid string) ([][]int, [][]int) {
+// StartSolving starts solving the sudoku
+func StartSolving(jsonGrid string) ([][]int, [][]int) {
 	arrayGrid = ReadGrid(jsonGrid)
 
 	if !validateGrid(arrayGrid) {
