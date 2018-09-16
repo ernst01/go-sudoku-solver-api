@@ -1,0 +1,24 @@
+version: "3.5"
+
+services:
+
+  sudoku-solver:
+    container_name: sudoku-solver
+    image: golang:1.11.0-alpine
+    #golang:alpine
+    networks: [apps]
+    volumes:
+      - :./go/src/github.com/ernst01/sudoku-solver
+    working_dir: /go/src/github.com/ernst01/sudoku-solver
+    command: go run cmd/sudoku/sudoku.go
+    environment:
+	// Used for reversed proxy
+        VIRTUAL_HOST: sudoku-solver.loc
+        VIRTUAL_PORT: 8080
+    expose:
+      - "8080"
+
+networks:
+  apps:
+    external:
+      name: ernst_apps
