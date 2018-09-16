@@ -1,10 +1,8 @@
 package main
 
 import (
-    "net/http"
-    "fmt"
-    "encoding/json"
-    "log"
+	"log"
+	"net/http"
 )
 
 var jsonGrid = `[
@@ -20,23 +18,9 @@ var jsonGrid = `[
 ]`
 
 func main() {
-    routes()
+	routes()
 
-    log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-func handleRandomGrid() http.HandlerFunc {
-    type response struct {
-        OriginalGrid [][]int `json:"original_grid"`
-        SolvedGrid [][]int `json:"solved_grid"`
-    }
-    arrayGrid = readGrid(jsonGrid)
-    return func(w http.ResponseWriter, r *http.Request) {
-        origGrid, SolvGrid := startSolving(jsonGrid)
-        resp := &response{OriginalGrid: origGrid, SolvedGrid: SolvGrid}
-        resp_json, _ := json.Marshal(resp)
-        fmt.Fprintf(w, string(resp_json))
-    }
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 var jsonGrid2 = `[
