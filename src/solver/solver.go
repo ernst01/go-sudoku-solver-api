@@ -40,14 +40,14 @@ func solve(pos_y int, pos_x int) {
 			if true == isAllowed(val, arrayGrid, pos_y, pos_x) {
 				//displayGrid(arrayGrid)
 				//fmt.Println(fmt.Sprintf("%d : %d = %v", pos_y , pos_x, val))
-				tmp_number := arrayGrid[pos_y][pos_x]
+				tmpNumber := arrayGrid[pos_y][pos_x]
 				arrayGrid[pos_y][pos_x] = val
 				solve(pos_y, pos_x+1)
 				if isDone() {
 					//fmt.Println("Welcome to my Donezo List")
 					return
 				}
-				arrayGrid[pos_y][pos_x] = tmp_number
+				arrayGrid[pos_y][pos_x] = tmpNumber
 			}
 		}
 		return
@@ -57,14 +57,14 @@ func solve(pos_y int, pos_x int) {
 	return
 }
 
-func isAllowed(val int, arrayGrid [][]int, pos_y int, pos_x int) bool {
-	if true == integerInYSlice(val, arrayGrid[pos_y]) {
+func isAllowed(val int, arrayGrid [][]int, posY int, posX int) bool {
+	if true == integerInYSlice(val, arrayGrid[posY]) {
 		return false
 	}
-	if true == integerInXSlice(val, arrayGrid, pos_x) {
+	if true == integerInXSlice(val, arrayGrid, posX) {
 		return false
 	}
-	if true == integerInSquareSlice(val, arrayGrid, pos_y, pos_x) {
+	if true == integerInSquareSlice(val, arrayGrid, posY, posX) {
 		return false
 	}
 	return true
@@ -103,20 +103,20 @@ func integerInYSlice(a int, list []int) bool {
 	return false
 }
 
-func integerInXSlice(a int, list [][]int, pos_x int) bool {
+func integerInXSlice(a int, list [][]int, posX int) bool {
 	for _, b := range list {
-		if b[pos_x] == a {
+		if b[posX] == a {
 			return true
 		}
 	}
 	return false
 }
 
-func integerInSquareSlice(a int, list [][]int, pos_y int, pos_x int) bool {
-	start_y := pos_y - (pos_y % 3)
-	start_x := pos_x - (pos_x % 3)
-	for y := start_y; y < (start_y + 3); y++ {
-		for x := start_x; x < (start_x + 3); x++ {
+func integerInSquareSlice(a int, list [][]int, posY int, posX int) bool {
+	startY := posY - (posY % 3)
+	startX := posX - (posX % 3)
+	for y := startY; y < (startY + 3); y++ {
+		for x := startX; x < (startX + 3); x++ {
 			if list[y][x] == a {
 				return true
 			}
