@@ -1,9 +1,13 @@
 # Sudoku Solver
+
 The core algorythm is a simple brute force applied recursively.
 
-# To Do List
+# Getting Started
 
-* Clean Up solver.go
-* Write Unit Tests
-* Make it Restful (Endpoints + Database)
-* Implement Swagger Gen
+## Start server
+
+`make run`  
+
+## Test client
+
+`curl localhost:8080/sudoku`  

@@ -48,7 +48,7 @@ func (sg *SudokuGrid) solve(posY int, posX int) {
 	if sg.SolvedGrid[posY][posX] == 0 {
 		for val := 1; val <= 9; val++ {
 			if true == sg.isAllowed(val, sg.SolvedGrid, posY, posX) {
-				//sg.displayGrid(sg.SolvedGrid)
+				//sg.display(sg.SolvedGrid)
 				tmpNumber := sg.SolvedGrid[posY][posX]
 				sg.SolvedGrid[posY][posX] = val
 				sg.solve(posY, posX+1)
@@ -59,9 +59,9 @@ func (sg *SudokuGrid) solve(posY int, posX int) {
 			}
 		}
 		return
-	} else {
-		sg.solve(posY, posX+1)
 	}
+	sg.solve(posY, posX+1)
+
 	return
 }
 
@@ -121,7 +121,7 @@ func (sg *SudokuGrid) integerInSquareSlice(a int, list [][]int, posY int, posX i
 	return false
 }
 
-func (sg *SudokuGrid) displayGrid(arrayGrid [][]int) {
+func (sg *SudokuGrid) display(arrayGrid [][]int) {
 	fmt.Println("------------------")
 	for _, line := range arrayGrid {
 		fmt.Println(line)
