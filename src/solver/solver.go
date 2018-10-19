@@ -2,78 +2,83 @@ package solver
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"os"
 )
 
-var arrayGrid [][]int
-
-// StartSolving starts solving the sudoku
-func StartSolving(jsonGrid string) ([][]int, [][]int) {
-	arrayGrid = ReadGrid(jsonGrid)
-
-	if !validateGrid(arrayGrid) {
-		fmt.Println("It is NOT a valid sudoku grid")
-		os.Exit(0)
-	}
-
-	originalArrayGrid := make([][]int, 9)
-	for i := range arrayGrid {
-		originalArrayGrid[i] = make([]int, len(arrayGrid[i]))
-		copy(originalArrayGrid[i], arrayGrid[i])
-	}
-
-	solve(0, 0)
-
-	return originalArrayGrid, arrayGrid
+// SudokuGrid represents a sudoku grid
+type SudokuGrid struct {
+	OriginalGrid [][]int `json:"original_grid"`
+	SolvedGrid   [][]int `json:"solved_grid"`
 }
 
-func solve(pos_y int, pos_x int) {
-	if pos_x == 9 {
-		pos_y = pos_y + 1
-		pos_x = 0
+// Init inits the grid
+func (sg *SudokuGrid) Init(jsonGrid string) error {
+	if err := json.Unmarshal([]byte(jsonGrid), &sg.OriginalGrid); err != nil {
+		return errors.New("Invalid grid")
 	}
-	if pos_x == 0 && pos_y == 9 {
+
+	sg.SolvedGrid = make([][]int, 9)
+	for i := range sg.OriginalGrid {
+		sg.SolvedGrid[i] = make([]int, len(sg.OriginalGrid[i]))
+		copy(sg.SolvedGrid[i], sg.OriginalGrid[i])
+	}
+	return nil
+}
+
+// Solve starts solving the sudoku
+func (sg *SudokuGrid) Solve() error {
+	if !sg.validate(sg.OriginalGrid) {
+		return errors.New("Not a valid grid")
+	}
+
+	sg.solve(0, 0)
+
+	return nil
+}
+
+func (sg *SudokuGrid) solve(posY int, posX int) {
+	if posX == 9 {
+		posY = posY + 1
+		posX = 0
+	}
+	if posX == 0 && posY == 9 {
 		return
 	}
-	if arrayGrid[pos_y][pos_x] == 0 {
+	if sg.SolvedGrid[posY][posX] == 0 {
 		for val := 1; val <= 9; val++ {
-			if true == isAllowed(val, arrayGrid, pos_y, pos_x) {
-				//displayGrid(arrayGrid)
-				//fmt.Println(fmt.Sprintf("%d : %d = %v", pos_y , pos_x, val))
-				tmpNumber := arrayGrid[pos_y][pos_x]
-				arrayGrid[pos_y][pos_x] = val
-				solve(pos_y, pos_x+1)
-				if isDone() {
-					//fmt.Println("Welcome to my Donezo List")
+			if true == sg.isAllowed(val, sg.SolvedGrid, posY, posX) {
+				//sg.displayGrid(sg.SolvedGrid)
+				tmpNumber := sg.SolvedGrid[posY][posX]
+				sg.SolvedGrid[posY][posX] = val
+				sg.solve(posY, posX+1)
+				if sg.isDone() {
 					return
 				}
-				arrayGrid[pos_y][pos_x] = tmpNumber
+				sg.SolvedGrid[posY][posX] = tmpNumber
 			}
 		}
 		return
 	} else {
-		solve(pos_y, pos_x+1)
+		sg.solve(posY, posX+1)
 	}
 	return
 }
 
-func isAllowed(val int, arrayGrid [][]int, posY int, posX int) bool {
-	if true == integerInYSlice(val, arrayGrid[posY]) {
+func (sg *SudokuGrid) isAllowed(val int, arrayGrid [][]int, posY int, posX int) bool {
+	if true == sg.integerInYSlice(val, arrayGrid[posY]) {
 		return false
 	}
-	if true == integerInXSlice(val, arrayGrid, posX) {
+	if true == sg.integerInXSlice(val, arrayGrid, posX) {
 		return false
 	}
-	if true == integerInSquareSlice(val, arrayGrid, posY, posX) {
+	if true == sg.integerInSquareSlice(val, arrayGrid, posY, posX) {
 		return false
 	}
 	return true
 }
 
-//fmt.Println(fmt.Sprintf("%d : %d is a number (%v)", pos_y, pos_x, arrayGrid[pos_y][pos_x]))
-
-func validateGrid(arrayGrid [][]int) bool {
+func (sg *SudokuGrid) validate(arrayGrid [][]int) bool {
 	if len(arrayGrid) != 9 {
 		return false
 	}
@@ -85,17 +90,7 @@ func validateGrid(arrayGrid [][]int) bool {
 	return true
 }
 
-// ReadGrid is our starting point
-func ReadGrid(jsonGrid string) [][]int {
-	var grid [][]int
-	if err := json.Unmarshal([]byte(jsonGrid), &grid); err != nil {
-		panic(err)
-	}
-
-	return grid
-}
-
-func integerInYSlice(a int, list []int) bool {
+func (sg *SudokuGrid) integerInYSlice(a int, list []int) bool {
 	for _, b := range list {
 		if b == a {
 			return true
@@ -104,7 +99,7 @@ func integerInYSlice(a int, list []int) bool {
 	return false
 }
 
-func integerInXSlice(a int, list [][]int, posX int) bool {
+func (sg *SudokuGrid) integerInXSlice(a int, list [][]int, posX int) bool {
 	for _, b := range list {
 		if b[posX] == a {
 			return true
@@ -113,7 +108,7 @@ func integerInXSlice(a int, list [][]int, posX int) bool {
 	return false
 }
 
-func integerInSquareSlice(a int, list [][]int, posY int, posX int) bool {
+func (sg *SudokuGrid) integerInSquareSlice(a int, list [][]int, posY int, posX int) bool {
 	startY := posY - (posY % 3)
 	startX := posX - (posX % 3)
 	for y := startY; y < (startY + 3); y++ {
@@ -126,15 +121,15 @@ func integerInSquareSlice(a int, list [][]int, posY int, posX int) bool {
 	return false
 }
 
-func displayGrid(arrayGrid [][]int) {
+func (sg *SudokuGrid) displayGrid(arrayGrid [][]int) {
 	fmt.Println("------------------")
 	for _, line := range arrayGrid {
 		fmt.Println(line)
 	}
 }
 
-func isDone() bool {
-	for _, line := range arrayGrid {
+func (sg *SudokuGrid) isDone() bool {
+	for _, line := range sg.SolvedGrid {
 		for _, a := range line {
 			if a == 0 {
 				return false
