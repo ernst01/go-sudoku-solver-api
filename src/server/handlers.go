@@ -1,8 +1,6 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/ernst01/sudoku-solver/src/solver"
@@ -18,8 +16,9 @@ func (s *Server) handleRandomGrid() http.HandlerFunc {
 			sendError(w, http.StatusInternalServerError, err.Error())
 		}
 
-		respJSON, _ := json.Marshal(sudokuGrid)
-		fmt.Fprintf(w, string(respJSON))
+		sendSuccess(w, http.StatusOK, sudokuGrid)
+		//respJSON, _ := json.Marshal(sudokuGrid)
+		//fmt.Fprintf(w, string(respJSON))
 	}
 }
 
