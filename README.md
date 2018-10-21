@@ -1,5 +1,4 @@
-# Sudoku Solver
-
+# Sudoku Solver Api
 
 The core algorythm is a simple brute force applied recursively.
 
@@ -8,6 +7,7 @@ The core algorythm is a simple brute force applied recursively.
 `make install`  
 `make run`  
 `make test`  
+`make cover`  
 
 ## Test client
 
