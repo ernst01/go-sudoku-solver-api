@@ -2,7 +2,7 @@
 
 The core algorythm is a simple brute force applied recursively.
 
-# Getting Started
+## Getting Started
 
 ```shell
   $ make install
@@ -11,6 +11,8 @@ The core algorythm is a simple brute force applied recursively.
   $ make cover
 ```
 
-## Test client
+### Test client
 
-`curl localhost:8080/sudoku`  
+```shell
+  $ curl localhost:8080/sudoku
+```
