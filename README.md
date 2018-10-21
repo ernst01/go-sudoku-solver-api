@@ -1,5 +1,6 @@
 # Sudoku Solver
 
+
 The core algorythm is a simple brute force applied recursively.
 
 # Getting Started
