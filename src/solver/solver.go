@@ -32,12 +32,12 @@ func (sg *SudokuGrid) Solve() error {
 		return errors.New("Not a valid grid")
 	}
 
-	sg.solve(0, 0)
+	sg.recursiveSolve(0, 0)
 
 	return nil
 }
 
-func (sg *SudokuGrid) solve(posY int, posX int) {
+func (sg *SudokuGrid) recursiveSolve(posY int, posX int) {
 	if posX == 9 {
 		posY = posY + 1
 		posX = 0
@@ -51,7 +51,7 @@ func (sg *SudokuGrid) solve(posY int, posX int) {
 				//sg.display(sg.SolvedGrid)
 				tmpNumber := sg.SolvedGrid[posY][posX]
 				sg.SolvedGrid[posY][posX] = val
-				sg.solve(posY, posX+1)
+				sg.recursiveSolve(posY, posX+1)
 				if sg.isDone() {
 					return
 				}
@@ -60,7 +60,7 @@ func (sg *SudokuGrid) solve(posY int, posX int) {
 		}
 		return
 	}
-	sg.solve(posY, posX+1)
+	sg.recursiveSolve(posY, posX+1)
 
 	return
 }
