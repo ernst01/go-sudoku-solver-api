@@ -2,6 +2,9 @@
 GOCMD=go
 
 .SILENT:
+install:
+		dep ensure
+
 run:
 		$(GOCMD) run cmd/sudoku/sudoku.go
 
