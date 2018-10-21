@@ -11,7 +11,7 @@ The core algorythm is a simple brute force applied recursively.
   $ make cover
 ```
 
-## Test client
+### Test client
 
 ```shell
   $ curl localhost:8080/sudoku
