@@ -1,9 +1,9 @@
-package server
+package sudoku
 
 import (
 	"net/http"
 
-	"github.com/ernst01/sudoku-solver/src/solver"
+	"github.com/ernst01/sudoku-solver/pkg/solver"
 )
 
 func (s *Server) handleRandomGrid() http.HandlerFunc {

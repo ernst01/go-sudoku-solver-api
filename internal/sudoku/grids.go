@@ -1,4 +1,4 @@
-package server
+package sudoku
 
 var jsonGrid = `[
    [0, 4, 8, 0, 1, 2, 6, 0, 5],
