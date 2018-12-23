@@ -4,12 +4,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ernst01/sudoku-solver/src/server"
+	"github.com/ernst01/sudoku-solver/internal/sudoku"
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	srv := server.Server{
+	srv := sudoku.Server{
 		Router: mux.NewRouter(),
 	}
 

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ernst01/sudoku-solver/src/solver"
+	"github.com/ernst01/sudoku-solver/pkg/solver"
 )
 
 var jsonGrid = `[

@@ -1,4 +1,4 @@
-package server
+package sudoku
 
 import (
 	"github.com/gorilla/mux"

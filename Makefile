@@ -5,7 +5,7 @@ GOCMD=go
 install:
 		dep ensure
 
-run:
+local:
 		$(GOCMD) run cmd/sudoku/sudoku.go
 
 test:
